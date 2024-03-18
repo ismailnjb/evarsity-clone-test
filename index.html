@@ -1,0 +1,797 @@
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd"> -->
+<html lang="en"><head>
+    <meta charset="utf-8"> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>SRM Student Portal</title>
+    <link href="mainstyle.css" rel="stylesheet">
+    <link href="all.css" rel="stylesheet" type="text/css">
+    <link href="customstyle.css" rel="stylesheet">
+    <link href="college_icon.jpg" type="Image/x-icon" rel="icon">
+    <!-- <script src="jquery.min.js"></script> -->
+    <script>
+        var appURL = "";
+        var imageName;
+        var d;
+        $(function () {
+            (function (global) {
+
+                if (typeof (global) === "undefined")
+                {
+                    throw new Error("window is undefined");
+                }
+
+                var _hash = "!";
+                var noBackPlease = function () {
+                    global.location.href += "#";
+                    // making sure we have the fruit available for juice....
+                    // 50 milliseconds for just once do not cost much (^__^)
+                    global.setTimeout(function () {
+                        global.location.href += "!";
+                    }, 50);
+                };
+                // Earlier we had setInerval here....
+                global.onhashchange = function () {
+                    if (global.location.hash !== _hash) {
+                        global.location.hash = _hash;
+                    }
+                };
+                global.onload = function () {
+
+                    noBackPlease();
+                    // disables backspace on page except on input fields and textarea..
+                    document.body.onkeydown = function (e) {
+                        var elm = e.target.nodeName.toLowerCase();
+                        if (e.which === 8 && (elm !== 'input' && elm !== 'textarea')) {
+                            e.preventDefault();
+                        }
+                        // stopping event bubbling up the DOM tree..
+                        e.stopPropagation();
+                    };
+                };
+            })(window);
+            $("#hidchkHostelOpen").val('');
+            funShow(9, '../../students/report/studentAttendanceDetails.jsp');
+        });
+
+        function funSetFormId(arg) {
+            if (arg > 100) {
+                $('#logoutModal').modal('show');
+            } else {
+                $("#hdnFormId").val(arg);
+                $('#userHomePage').attr("action", "../../students/template/HRDSystem.jsp");
+                $('#userHomePage').submit();
+            }
+        }
+
+        function funShow(arg, argURL) {
+            appParameter = [];
+            appParameter.push({name: "iden", value: arg});
+            appParameter.push({name: "filter", value: ""});
+            $(".navmenu").removeClass("active");
+            $("#listId" + arg).addClass("active");
+            if (arg < 100) {
+                $("#divMainDetails").html("<img src='../../resources/Image/wait.gif' alt='Loading... Please Wait!'>");
+                $("#divMainDetails").show();
+                $.post(argURL, appParameter, function (data) {
+                    $("#divMainDetails").html(data);
+                    $("#divMainDetails").show();
+                }, "html").fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.responseText);
+                })
+            } else {
+                $('#logoutModal').modal('show');
+            }
+        }
+    </script>
+<style type="text/css">/* Chart.js */
+@keyframes chartjs-render-animation{from{opacity:.99}to{opacity:1}}.chartjs-render-monitor{animation:chartjs-render-animation 1ms}.chartjs-size-monitor,.chartjs-size-monitor-expand,.chartjs-size-monitor-shrink{position:absolute;direction:ltr;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1}.chartjs-size-monitor-expand>div{position:absolute;width:1000000px;height:1000000px;left:0;top:0}.chartjs-size-monitor-shrink>div{position:absolute;width:200%;height:200%;left:0;top:0}</style></head>
+<body class="nav-fixed">
+    <form id="userHomePage" name="userHomePage" method="post">
+        <nav class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white" id="sidenavAccordion">
+            <button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 mr-lg-2" id="sidebarToggle"><i class="fa fa-bars"></i></button>
+            <a class="navbar-brand" href="../../students/loginManager/UserHomePage.jsp">
+                <img src="../../resources/Image/srmist.png" alt="SRM Logo"> 
+                <br><font style="font-size: 9pt;">Student Portal</font>
+            </a>
+            <span class="text-custom d-none d-sm-block"><b>Faculty of Engineering and Technology, Ramapuram Campus - Part, Vadapalani</b></span>
+
+            <ul class="navbar-nav align-items-center ml-auto text-center">
+
+                <a style="cursor:pointer;">
+                    <span class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
+                        <div class="dropdown-item-icon"><i class="fas fa-sign-out-alt"></i></div>
+                        Logout
+                    </span>
+                </a>
+            </ul>
+        </nav>
+
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sidenav shadow-right sidenav-light">
+                    <div class="sidenav-menu">
+                        <div class="nav accordion" id="accordionSidenav">
+
+                            <!-- Sidenav Heading -->
+                            <!--                                <div class="sidenav-menu-heading">Menus</div>-->
+
+                            
+                            <a id="listId1" class="nav-link navmenu" style="cursor:pointer;" onclick="funSetFormId(1)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-tachometer-alt"></i></div>
+                                    Dashboard 
+                            </a>
+                            
+                            <a id="listId17" class="nav-link navmenu" style="cursor:pointer;" onclick="funSetFormId(17)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-user"></i></div>
+                                    Personal Details 
+                            </a>
+                            
+                            <a id="listId69" class="nav-link navmenu" style="cursor:pointer;" onclick="funSetFormId(69)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-newspaper"></i></div>
+                                    Fee Payment 
+                            </a>
+                            
+                            <a id="listId33" class="nav-link navmenu" style="cursor:pointer;" onclick="funSetFormId(33)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-newspaper"></i></div>
+                                    End Sem Feedback 
+                            </a>
+                            
+                            <a id="listId7" class="nav-link navmenu" style="cursor:pointer;" onclick="funSetFormId(7)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-book"></i></div>
+                                    Course List 
+                            </a>
+                            
+                            <a id="listId8" class="nav-link navmenu" style="cursor:pointer;" onclick="funSetFormId(8)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-newspaper"></i></div>
+                                    Grade / Mark &amp; Credit 
+                            </a>
+                            
+                            <a id="listId9" class="nav-link navmenu active" style="cursor:pointer;" onclick="funSetFormId(9)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-calculator"></i></div>
+                                    Attendance Details 
+                            </a>
+                            
+                            <a id="listId27" class="nav-link navmenu" style="cursor:pointer;" onclick="funSetFormId(27)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-newspaper"></i></div>
+                                    Exam Revaluation Results 
+                            </a>
+                            
+                            <a id="listId24" class="nav-link navmenu" style="cursor:pointer;" onclick="funSetFormId(24)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-newspaper"></i></div>
+                                    Exam Provisional Results 
+                            </a>
+                            
+                            <a id="listId10" class="nav-link navmenu" style="cursor:pointer;" onclick="funSetFormId(10)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-clock"></i></div>
+                                    Timetable 
+                            </a>
+                            
+                            <a id="listId13" class="nav-link navmenu" style="cursor:pointer;" onclick="funSetFormId(13)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-server"></i></div>
+                                    Internal Mark Details 
+                            </a>
+                            
+                            <a id="listId3" class="nav-link navmenu" style="cursor:pointer;" onclick="funSetFormId(3)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-receipt"></i></div>
+                                    Finance Details 
+                            </a>
+                            
+                            <a id="listId21" class="nav-link navmenu" style="cursor:pointer;" onclick="funSetFormId(21)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-book"></i></div>
+                                    ABC Entry Request 
+                            </a>
+                            
+                            <a id="listId42" class="nav-link navmenu" style="cursor:pointer;" onclick="funSetFormId(42)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-newspaper"></i></div>
+                                    Exam HallTicket 
+                            </a>
+                            
+                            <a id="listId46" class="nav-link navmenu" style="cursor:pointer;" onclick="funSetFormId(46)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-newspaper"></i></div>
+                                    Photo for Degree certificate 
+                            </a>
+                            
+                            <a id="listId44" class="nav-link navmenu" style="cursor:pointer;" onclick="funSetFormId(44)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-envelope"></i></div>
+                                    Summer Term / Compensatory Registration  
+                            </a>
+                            
+                            <a id="listId49" class="nav-link navmenu" style="cursor:pointer;" onclick="funSetFormId(49)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-newspaper"></i></div>
+                                    Scribe Request 
+                            </a>
+                            
+                            <a id="listId54" class="nav-link navmenu" style="cursor:pointer;" onclick="funSetFormId(54)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-newspaper"></i></div>
+                                    Review/Revaluation/Retotaling Registration 
+                            </a>
+                            
+                            <a id="listId57" class="nav-link navmenu" style="cursor:pointer;" onclick="funSetFormId(57)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-newspaper"></i></div>
+                                    Name Change - Gazette 
+                            </a>
+                            
+                            <a id="listId74" class="nav-link navmenu" style="cursor:pointer;" onclick="funSetFormId(74)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-file"></i></div>
+                                    Community Certificate 
+                            </a>
+                            
+                            <a id="listId83" class="nav-link navmenu" style="cursor:pointer;" onclick="funSetFormId(83)">
+                                <div class="nav-link-icon"><i class="fas fa-fw fa-newspaper"></i></div>
+                                    Placement Insight Dashboard 
+                            </a>
+                            
+                            <a class="nav-link" data-toggle="modal" data-target="#logoutModal">
+                                <div class="nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Sidenav Footer-->
+                    <div class="sidenav-footer">
+                        <div class="sidenav-footer-content">
+                            <div class="sidenav-footer-subtitle">RA2111003040065</div>
+                            <div class="sidenav-footer-subtitle">N MOHAMMED ISMAIL NAJEEB</div>
+                            <div class="sidenav-footer-title">Fri 15-Mar-2024 09:21:25</div>
+                        </div>
+                        <input type="hidden" style="color:white;" id="hidchkHostelOpen" name="hidchkHostelOpen" size="10" value="">
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div id="divMainDetails" style="">
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+function funAbsentDetails(argAttendancemonth, argAttendanceYear) {
+    var applnparameter = [];
+    $("#absentModal").modal('show');
+    applnparameter.push({name: "ids", value: "1"});
+    applnparameter.push({name: "attendanceMonth", value: argAttendancemonth});
+    applnparameter.push({name: "attendanceYear", value: argAttendanceYear});
+    $("#modalbodycontent").html("<img src='../../resources/Image/wait.gif' alt='Loading... Please wait..'>");
+    $.post("../../students/report/studentAttendanceDetailsInner.jsp", applnparameter, function (data, status) {
+        $("#modalbodycontent").html(data);
+    }, "html");
+}
+</script>
+<!-- Main page content-->
+<div class="container mt-4">
+
+<div class="row">
+    <div class="col-xl-8 col-lg-7">
+        <!-- Bar Chart -->
+        <div class="card shadow mb-4">
+            <div class="card-header bg-custom text-white"><i class="fa fa-calculator"></i>
+                Course Wise Attendance (%)
+            </div>
+            <div class="card-body">
+                <div class="chart-bar"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                    <canvas id="myBarChart" width="783" height="300" style="display: block; height: 240px; width: 627px;" class="chartjs-render-monitor"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Donut Chart -->
+    <div class="col-xl-4 col-lg-5">
+        <div class="card shadow mb-4">
+            <div class="card-header bg-custom text-white"><i class="fa fa-calculator"></i> Attendance Hours
+            </div>
+            <div class="card-body">
+                <div class="chart-pie"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                    <canvas id="myPieChart" width="783" height="300" style="display: block; height: 240px; width: 627px;" class="chartjs-render-monitor"></canvas>
+                </div>
+            </div>
+        </div>              
+    </div>
+</div>
+
+    
+
+
+<div class="card mb-4">
+    <div class="card-header bg-custom text-white"><i class="fa fa-calculator"></i> COURSE WISE ATTENDANCE
+        
+            - During the Period: <b>12/Jan/2024</b> To <b>14/Mar/2024</b>
+        
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive table-billing-history">
+            <table class="table mb-0">
+                <thead>
+                    <tr>
+                        <th width="10%" scope="col">Code</th>
+                        <th width="32%" scope="col">Description</th>
+                        <th width="8%" scope="col">Max. hours</th>
+                        <th width="8%" scope="col">Att. hours</th>
+                        <th width="8%" scope="col">Absent hours</th>
+                        <th width="8%" scope="col">Average %</th>
+                        <th width="8%" scope="col">OD/ML Percentage</th>
+                        <th width="8%" scope="col">Total Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                        
+                        
+                        
+                        
+                        <tr valign="top">
+                            <td>18CSC303J</td>
+                            <td>DATABASE MANAGEMENT SYSTEMS</td>
+                            <td>38</td>
+                            <td>32</td>
+                            <td>6</td>
+                            <td>84.21</td>
+                            <td>0.00</td>
+                            <td>84.21</td>
+                        </tr> 
+                          
+
+                    
+                        
+                        
+                        
+                        
+                        <tr valign="top">
+                            <td>18CSC304J</td>
+                            <td>COMPILER DESIGN</td>
+                            <td>40</td>
+                            <td>35</td>
+                            <td>5</td>
+                            <td>87.50</td>
+                            <td>0.00</td>
+                            <td>87.50</td>
+                        </tr> 
+                          
+
+                    
+                        
+                        
+                        
+                        
+                        <tr valign="top">
+                            <td>18CSC305J</td>
+                            <td>ARTIFICIAL INTELLIGENCE</td>
+                            <td>40</td>
+                            <td>40</td>
+                            <td>0</td>
+                            <td>100.00</td>
+                            <td>0.00</td>
+                            <td>100.00</td>
+                        </tr> 
+                          
+
+                    
+                        
+                        
+                        
+                        
+                        <tr valign="top">
+                            <td>18CSC307L</td>
+                            <td>COMPETITIVE PROFESSIONAL SKILLS - III</td>
+                            <td>9</td>
+                            <td>7</td>
+                            <td>2</td>
+                            <td>77.78</td>
+                            <td>0.00</td>
+                            <td>77.78</td>
+                        </tr> 
+                          
+
+                    
+                        
+                        
+                        
+                        
+                        <tr valign="top">
+                            <td>18CSC350T</td>
+                            <td>COMPREHENSION</td>
+                            <td>8</td>
+                            <td>7</td>
+                            <td>1</td>
+                            <td>87.50</td>
+                            <td>0.00</td>
+                            <td>87.50</td>
+                        </tr> 
+                          
+
+                    
+                        
+                        
+                        
+                        
+                        <tr valign="top">
+                            <td>18CSE454T</td>
+                            <td>HIGH PERFORMANCE COMPUTING</td>
+                            <td>22</td>
+                            <td>20</td>
+                            <td>2</td>
+                            <td>90.91</td>
+                            <td>0.00</td>
+                            <td>90.91</td>
+                        </tr> 
+                          
+
+                    
+                        
+                        
+                        
+                        
+                        <tr valign="top">
+                            <td>18CSE458T</td>
+                            <td>WIRELESS AND MOBILE COMMUNICATION</td>
+                            <td>25</td>
+                            <td>22</td>
+                            <td>3</td>
+                            <td>88.00</td>
+                            <td>0.00</td>
+                            <td>88.00</td>
+                        </tr> 
+                          
+
+                    
+                        
+                        
+                        
+                        
+                        <tr valign="top">
+                            <td>18CSP106L</td>
+                            <td>SEMINAR - II</td>
+                            <td>9</td>
+                            <td>8</td>
+                            <td>1</td>
+                            <td>88.89</td>
+                            <td>0.00</td>
+                            <td>88.89</td>
+                        </tr> 
+                          
+
+                    
+                        
+                        
+                        
+                        
+                        <tr valign="top">
+                            <td>18LEM110L</td>
+                            <td>INDIAN ART FORM</td>
+                            <td>13</td>
+                            <td>12</td>
+                            <td>1</td>
+                            <td>92.31</td>
+                            <td>0.00</td>
+                            <td>92.31</td>
+                        </tr> 
+                          
+
+                    
+                        
+                        
+                        
+                        
+                        <tr valign="top">
+                            <td>18MBO406T</td>
+                            <td>B2B MARKETING</td>
+                            <td>23</td>
+                            <td>19</td>
+                            <td>4</td>
+                            <td>82.61</td>
+                            <td>0.00</td>
+                            <td>82.61</td>
+                        </tr> 
+                          
+
+                    
+                        
+                        
+                        
+                        
+                        <tr valign="top">
+                            <td>18PDH201T</td>
+                            <td>EMPLOYABILITY SKILLS AND PRACTICES</td>
+                            <td>16</td>
+                            <td>15</td>
+                            <td>1</td>
+                            <td>93.75</td>
+                            <td>0.00</td>
+                            <td>93.75</td>
+                        </tr> 
+                          
+
+                    
+                    
+                        
+
+                        <tr class="text-white  bg-custom font-weight-bold font-weight-700">
+                            <td class="text-right" colspan="2">Total</td>
+                            <td>243</td>
+                            <td>217</td>
+                            <td>26</td>
+                            <td>89.30</td>
+                            <td>0.00</td>
+                            
+                            <td>89.3</td>
+                            
+                        </tr>
+                    
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="card mb-3">
+    <div class="card-header bg-custom text-white"><i class="fa fa-calculator"></i> Cumulative Attendance (In Hours)</div>
+    <div class="card-body">
+        <div class="table-responsive table-billing-history">
+            <table class="table mb-0">
+                <thead>
+                    <tr>
+                        <th width="15%" scope="col">Month / Year</th>
+                        <th width="15%" scope="col">Present</th>
+                        <th width="15%" scope="col">Absent</th>
+                        <th width="15%" scope="col">OD (Present)</th>
+                        <th width="15%" scope="col">OD (Absent)</th>
+                        <th width="15%" scope="col">ML</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    
+                        
+                        <tr valign="top">
+                            <td>JAN / 2024</td>
+                            <td>47</td>
+                            <td><a href="#" onclick="funAbsentDetails('1', '2024')">&nbsp;3&nbsp;</a></td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr> 
+                    
+                        
+                        <tr valign="top">
+                            <td>FEB / 2024</td>
+                            <td>121</td>
+                            <td><a href="#" onclick="funAbsentDetails('2', '2024')">&nbsp;11&nbsp;</a></td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr> 
+                    
+                        
+                        <tr valign="top">
+                            <td>MAR / 2024</td>
+                            <td>49</td>
+                            <td><a href="#" onclick="funAbsentDetails('3', '2024')">&nbsp;12&nbsp;</a></td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr> 
+                    
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="absentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header bg-custom ">
+            <h5 class="modal-title text-white" id="exampleModalLabel">Absent Details</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span class="text-white" aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body" id="modalbodycontent">
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-dark lift" type="button" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+</div>
+<script src="../../resources/js/vendor/Chart.min.js"></script>
+<script>
+                                var ctx = document.getElementById("myPieChart");
+                                var myPieChart = new Chart(ctx, {
+                                    type: 'doughnut',
+                                    data: {
+                                        labels: ["Hours Present", "Hours Absent"],
+                                        datasets: [{
+                                                data: [217,26],
+                                                backgroundColor: ['#00ba94', '#f4a100'],
+                                                hoverBackgroundColor: ['#00ba94', '#f4a100'],
+                                                hoverBorderColor: "rgba(234, 236, 244, 1)",
+                                            }],
+                                    },
+                                    options: {
+                                        maintainAspectRatio: false,
+                                        tooltips: {
+                                            backgroundColor: "rgb(255,255,255)",
+                                            bodyFontColor: "#858796",
+                                            borderColor: '#dddfeb',
+                                            borderWidth: 1,
+                                            xPadding: 15,
+                                            yPadding: 15,
+                                            displayColors: false,
+                                            caretPadding: 10,
+                                        },
+                                        legend: {
+                                            display: true
+                                        },
+                                        cutoutPercentage: 70,
+                                    },
+                                });
+</script>
+<script>
+function number_format(number, decimals, dec_point, thousands_sep) {
+    // *     example: number_format(1234.56, 2, ',', ' ');
+    // *     return: '1 234,56'
+    number = (number + '').replace(',', '').replace(' ', '');
+    var n = !isFinite(+number) ? 0 : +number,
+            prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+            sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+            dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+            s = '',
+            toFixedFix = function (n, prec) {
+                var k = Math.pow(10, prec);
+                return '' + Math.round(n * k) / k;
+            };
+    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+    if (s[0].length > 3) {
+        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+    }
+    if ((s[1] || '').length < prec) {
+        s[1] = s[1] || '';
+        s[1] += new Array(prec - s[1].length + 1).join('0');
+    }
+    return s.join(dec);
+}
+
+// Bar Chart Example
+var ctx = document.getElementById("myBarChart");
+var myBarChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: [ "18CSC303J", "18CSC304J", "18CSC305J", "18CSC307L", "18CSC350T", "18CSE454T", "18CSE458T", "18CSP106L", "18LEM110L", "18MBO406T", "18PDH201T",],
+        datasets: [{
+                label: "Attendance ",
+                backgroundColor: "#4e73df",
+                hoverBackgroundColor: "#2e59d9",
+                borderColor: "#4e73df",
+                data: [ 84.21, 87.50, 100.00, 77.78, 87.50, 90.91, 88.00, 88.89, 92.31, 82.61, 93.75,],
+            }],
+    },
+    options: {
+        maintainAspectRatio: false,
+        layout: {
+            padding: {
+                left: 10,
+                right: 25,
+                top: 25,
+                bottom: 0
+            }
+        },
+        scales: {
+            xAxes: [{
+                    time: {
+                        unit: 'month'
+                    },
+                    gridLines: {
+                        display: false,
+                        drawBorder: false
+                    },
+                    ticks: {
+                        autoSkip: false
+                    },
+                    maxBarThickness: 25,
+                }],
+            yAxes: [{
+                    ticks: {
+                        min: 0,
+                        max: 100,
+                        maxTicksLimit: 5,
+                        padding: 10,
+                        // Include a dollar sign in the ticks
+                        callback: function (value, index, values) {
+                            return number_format(value) + '%';
+                        }
+                    },
+                    gridLines: {
+                        color: "rgb(234, 236, 244)",
+                        zeroLineColor: "rgb(234, 236, 244)",
+                        drawBorder: false,
+                        borderDash: [2],
+                        zeroLineBorderDash: [2]
+                    }
+                }],
+        },
+        legend: {
+            display: false
+        },
+        tooltips: {
+            titleMarginBottom: 10,
+            titleFontColor: '#6e707e',
+            titleFontSize: 14,
+            backgroundColor: "rgb(255,255,255)",
+            bodyFontColor: "#858796",
+            borderColor: '#dddfeb',
+            borderWidth: 1,
+            xPadding: 15,
+            yPadding: 15,
+            displayColors: false,
+            caretPadding: 10,
+            callbacks: {
+                label: function (tooltipItem, chart) {
+                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                    return datasetLabel + ': ' + number_format(tooltipItem.yLabel) + "%";
+                }
+            }
+        },
+    }
+});
+</script>
+
+</div>
+                </main>
+                <footer class="footer mt-auto footer-light">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6 small"></div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <input type="hidden" id="hdnFormStatus" name="hdnFormStatus" value="0">
+        <input type="hidden" id="hdnFormId" name="hdnFormId" value="1">
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Logout</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span class="text-white" aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure to logout?
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-dark lift" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-custom lift" href="../../students/template/Logout.jsp">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" id="hdnFilename" name="hdnFilename" value="">
+    </form>
+    <script src="../../resources/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="../../resources/js/vendor/jquery.easing.min.js"></script>
+    <script src="../../resources/js/vendor/main.js"></script>                   
+
+
+
+
+</body></html>
